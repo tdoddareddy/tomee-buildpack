@@ -16,17 +16,19 @@
 # limitations under the License.
 
 require 'java_buildpack/component/versioned_dependency_component'
+require 'java_buildpack/container'
+require 'java_buildpack/container/tomcat/tomcat_utils'
 
 module JavaBuildpack
   module Container
 
     # Encapsulates the detect, compile, and release functionality for Tomcat logging support.
     class TomcatLoggingSupport < JavaBuildpack::Component::VersionedDependencyComponent
+      include JavaBuildpack::Container
 
       # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
-        download_jar(jar_name, bin)
-        @droplet.root_libraries << (bin + jar_name)
+        download_jar(jar_name, tomcat_lib)
       end
 
       # (see JavaBuildpack::Component::BaseComponent#release)
@@ -40,10 +42,6 @@ module JavaBuildpack
       end
 
       private
-
-      def bin
-        @droplet.sandbox + 'bin'
-      end
 
       def jar_name
         "tomcat_logging_support-#{@version}.jar"

@@ -15,5 +15,5 @@
 
 # Logging configuration
 ---
-default_log_level: INFO
+default_log_level: DEBUG
 enable_log_file: false
